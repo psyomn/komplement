@@ -1,0 +1,1 @@
+require 'komplement/version'

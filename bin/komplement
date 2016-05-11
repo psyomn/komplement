@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+root = File.expand_path(File.join(File.dirname(__FILE__),'..'))
+if File.directory?(File.join(root,'.git'))
+  Dir.chdir(root) do
+    begin
+      require 'bundler/setup'
+    rescue LoadError => e
+      warn e.message
+      warn "Run `gem install bundler` to install Bundler"
+      exit -1
+    end
+  end
+end
+
+require 'komplement'
+include Komplement
+
+puts "Looking into #{ARGV[0]}"
+
+Komplement::Base
+  .new
+  .with_ignored(Komplement::HTML_ELEMENTS)
+  .in_filetypes(['html'])
+  .in_dirs([ARGV[0]])
+  .run
