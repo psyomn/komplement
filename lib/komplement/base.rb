@@ -26,23 +26,19 @@ module Komplement
 
     # returns 0 on no offenses, else 2
     def run
+      unknown = find_offenses
+      exit process_output(unknown)
+    end
+
+    def find_offenses
       [@ignored_elements, @filetypes, @dirs].map { |e| e.uniq! }
 
-      paths = []
-      @dirs.each do |dir|
-        @filetypes.each do |filetype|
-          paths.push File.join(dir, '**', filetype)
-        end
-      end
-
-      files = []
-      paths.each do |path|
-        files += Dir.glob(path)
-      end
+      paths = make_paths
+      @files_of_interest = make_files(paths)
 
       unknown = Hash.new { |h, k| h[k] = [] }
 
-      files.each do |file|
+      @files_of_interest.each do |file|
         contents = File.read(file)
         Nokogiri::HTML(contents).traverse do |node|
           unless @ignored_elements.include? nm = node.name
@@ -50,15 +46,35 @@ module Komplement
           end
         end
       end
-
-      exit process_output(unknown)
+      unknown
     end
 
     attr_accessor :ignored_elements
     attr_accessor :filetypes
     attr_accessor :dirs
 
+    attr_reader :files_of_interest
+
     private
+
+    def make_paths
+      @dirs.uniq!
+      paths = []
+      @dirs.each do |dir|
+        @filetypes.each do |filetype|
+          paths.push File.join(dir, '**', filetype)
+        end
+      end
+      paths
+    end
+
+    def make_files(paths_a)
+      files = []
+      paths_a.each do |path|
+        files += Dir.glob(path)
+      end
+      files
+    end
 
     # @param unknown_h are the unknown elements that may have been detected
     def process_output(unknown_h)
