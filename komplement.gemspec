@@ -39,6 +39,6 @@ DESC
   gem.add_development_dependency 'rspec', '~> 3.0'
   gem.add_development_dependency 'rubygems-tasks', '~> 0.2'
 
-  gem.add_runtime_dependency 'nokogiri', '~> 1.6.7'
+  gem.add_runtime_dependency 'nokogiri', '~> 1.6'
   gem.add_runtime_dependency 'colorize', '~> 0.7.7'
 end
