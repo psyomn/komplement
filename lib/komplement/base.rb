@@ -79,7 +79,7 @@ module Komplement
     # @param unknown_h are the unknown elements that may have been detected
     def process_output(unknown_h)
       if unknown_h.empty?
-        $stderr.puts 'No problematic html found'.green.bold
+        $stdout.puts 'No problematic html found'.green.bold
         return EXIT_SUCCESS
       end
 
