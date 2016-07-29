@@ -26,8 +26,7 @@ module Komplement
 
     # returns 0 on no offenses, else 2
     def run
-      unknown = find_offenses
-      exit process_output(unknown)
+      process_output(find_offenses)
     end
 
     def find_offenses
