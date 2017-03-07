@@ -1,6 +1,8 @@
 require 'komplement'
 
 module Komplement
+  class Error < StandardError; end
+
   class Base
     def initialize
       @ignored_elements = @filetypes = @dirs = []
@@ -24,9 +26,17 @@ module Komplement
       self
     end
 
-    # returns 0 on no offenses, else 2
     def run
       process_output(find_offenses)
+    end
+
+    def run_and_raise
+      ret = run
+      if ret != 0
+        raise Komplement::Error, "there were problems with your html"
+      else
+        ret
+      end
     end
 
     def find_offenses

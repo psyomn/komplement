@@ -45,5 +45,24 @@ describe Komplement do
 
       expect(ret).to be_empty
     end
+
+    it "should raise if using run_and_raise" do
+      class DummyIO
+        # TODO: Maybe this warrants a refactor at some point
+        def puts *args; end
+        def write *args; end
+      end
+
+      $stdout = $stderr = DummyIO.new
+
+      expect {
+        Komplement::Base
+                .new
+                .with_ignored(Komplement::HTML_ELEMENTS)
+                .in_filetypes(['html'])
+                .in_dirs(['./spec/files/'])
+                .run_and_raise
+      }.to raise_error(Komplement::Error)
+    end
   end
 end
