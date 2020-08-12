@@ -34,7 +34,7 @@ DESC
   gem.require_paths = ['lib']
 
   gem.add_development_dependency 'bundler', '~> 2.1'
-  gem.add_development_dependency 'rake', '~> 10.0'
+  gem.add_development_dependency 'rake', '>= 12.0'
   gem.add_development_dependency 'rdoc', '~> 4.0'
   gem.add_development_dependency 'rspec', '~> 3.0'
   gem.add_development_dependency 'rubygems-tasks', '~> 0.2'
